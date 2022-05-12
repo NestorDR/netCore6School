@@ -1,0 +1,20 @@
+﻿@* 
+    If you add and USING statement here, it will be accesible across all the pages, controllers and classes in your project.
+    It's a globally definition and you will avoid to type that namespace every time
+*@
+@using SchoolWeb
+@using SchoolWeb.Models
+@*
+    MS looked at the success around React, Angular, etc; and created directives and tag helpers, but they are rendered server-side.
+    
+    Tag Helpers replaced old HTML Helpers, and it is much user friendly because are very focused around the HTML elements
+     and much more natural to use.
+    
+     Examples
+    ---- HTML helper ----
+    @Html.Label("Firstname", "Firstname: ", new { @class = "form-control"})
+
+    ---- TAG helper  ----
+    <label asp-for="Firstname" class="form-control"></label>
+*@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

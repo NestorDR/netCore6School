@@ -1,0 +1,89 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-group,
+.form-actions {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+}
+.form-actions {
+    justify-content: flex-end;
+}
+.form-group > label,
+.form-group > input,
+.form-group > select,
+.form-group > textarea {
+    padding: 0.25rem
+}
+.form-group > label {
+    min-width: 12rem;
+}
+.form-check > label,
+.form-control-validation {
+    margin-left: 12.5rem;
+}
+.form-group > input,
+.form-group > select,
+.form-group > textarea {
+    flex-grow: 5;
+}
+
+button,
+.btn {
+    text-transform: uppercase;
+    width: 150px;
+}
+.btn-in-row {
+    height: 32px;
+    width: 32px
+}
+.btn-in-row > .bi::before {
+    /* To center <i> (image) in <a> (anchor) button */
+    display: flex;
+    line-height: 8px;
+    justify-content: center;
+}
+
+@media (max-width: 576px) {
+        .form-group {
+            flex-flow: column wrap;
+        }
+
+        .form-actions {
+            margin-top: 0.5rem;
+        }
+
+        .form-group > label {
+            min-width: 0;
+        }
+
+        .form-check > label,
+        .form-control-validation {
+            margin-left: 0.5rem;
+        }
+
+        .form-group > input,
+        .form-group > select,
+        .form-group > textarea {
+            flex-grow: 1;
+            min-width: 0;
+            width: 100%;
+        }
+    }
