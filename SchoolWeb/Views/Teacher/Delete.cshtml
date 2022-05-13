@@ -4,7 +4,7 @@
 
 @*Use ViewData, visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc*@
 @{
-    ViewData["Title"] = "Delete teacher";
+    ViewData["Title"] = "Delete a teacher";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -18,8 +18,7 @@
 
     <div class="form-group">
         <label asp-for="TeachingMode"></label>
-        <input asp-for="TeachingModeDescription" 
-            class="form-control" readonly="@(true)"></input>
+        <input asp-for="TeachingModeDescription" class="form-control" readonly="@(true)" />
     </div>
 
     <div class="form-actions">
