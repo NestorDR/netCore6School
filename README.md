@@ -1,7 +1,7 @@
 # .Net Core 6 - School Stage
 
 ## Description
-First project with ASP.NET Core (.NET 6) leaving from the basics structure to build a simple CRUD website.
+My first project with ASP.NET Core (.NET 6) leaving from the basics structure to build a simple CRUD website.
 
 ## Screenshots
 ![Index - Screenshot](/assets/index.png "Teachers Index - Screenshot")

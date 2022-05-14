@@ -10,7 +10,7 @@ namespace SchoolWeb.Controllers
          * Ask to the dependency injection container the AppDbContext object to access the 
          * database. This AppDbContext object was registered inside DI Container when the 
          * DB Context service was added in Program.cs (the main program).
-         * Inside controller constructor an AppDbContext implementation will be asked 
+         * Then, inside controller constructor the AppDbContext implementation will be asked.
          */
         private readonly AppDbContext _db;
         
@@ -54,6 +54,9 @@ namespace SchoolWeb.Controllers
             _db.Teachers.Add(obj);
             // Saves all changes made in this context to the database
             _db.SaveChanges();
+            // Reporting success. TempData is used to pass data between two consecutive requests.
+            // Visit https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc/
+            TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} added successfully.";
             // Return redirection to the index view, which has the item list 
             return RedirectToAction("Index");                  
         }
@@ -92,8 +95,11 @@ namespace SchoolWeb.Controllers
             _db.Teachers.Update (obj);
             // Saves all changes made in this context to the database
             _db.SaveChanges();
-            return RedirectToAction("Index");                  
+            // Reporting success. TempData is used to pass data between two consecutive requests.
+            // Visit https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc/
+            TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} updated successfully.";
             // Return redirection to the index view, which has the item list 
+            return RedirectToAction("Index");                  
         }
 
         public IActionResult Delete(int? id)
@@ -120,6 +126,9 @@ namespace SchoolWeb.Controllers
             _db.Teachers.Remove (obj);
             // Saves all changes made in this context to the database
             _db.SaveChanges();
+            // Reporting success. TempData is used to pass data between two consecutive requests.
+            // Visit https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc/
+            TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} deleted successfully.";
             // Return redirection to the index view, which has the item list 
             return RedirectToAction("Index");                  
         }
