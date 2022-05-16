@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolWeb.Helper;
 
@@ -6,27 +7,63 @@ namespace SchoolWeb.Models
 {
     public class Student
     {
-        // To create properties type "prop and Tab twice"
+        /*
+         * System.ComponentModel.DataAnnotations Namespace Documentation
+         * Visit https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations?view=net-6.0
+         */
         
+        // To create constructor type "ctor and Tab twice"
+        public Student()
+        {
+            this.Courses = new HashSet<Course>();
+        }
+
+        // To create properties type "prop and Tab twice"
+
         // Scalar properties
         [Key]           // Data Annotation Attribute to set primary key    
         public int Id { get; set; }
+        
         [Column(TypeName = "nvarchar")]
-        [Display(Prompt = "Enter the student full name")]   // Data Annotation Attribute to set Placeholder
-        [MaxLength(100)]                                    // MaxLength is used for the EF to decide how large to make a string value field when it creates the DB.
+        // Data Annotation Attribute "Name" to set Label and Error messages
+        // Data Annotation Attribute "Prompt to set Placeholder
+        [Display(Name = "Full name", Prompt = "Enter the student full name")]
+        [MaxLength(100)]                                            // MaxLength is used for the EF to decide how large to make a string value field when it creates the DB.
         [Required(ErrorMessage = "Name is required.")]
-        [StringLengthCustom(100, MinimumLength = 3)]        // StringLength is a data annotation that will be used for validation of user input.
+        [StringLengthAttributeHelper(100, MinimumLength = 3)]       // StringLengthAttributeHelper extends StringLength base data annotation and will be used for validation of user input.
         public string Name { get; set; } = string.Empty;
-        public DateTime? DateOfBirth { get; set; }
+        
+        [Column(TypeName = "nvarchar")]
+        [RegularExpression(@"^[F|M|X]$", ErrorMessage = "Only uppercase F, M or X are allowed.")]
+        [Required(ErrorMessage = "Gender is required.")]
+        [StringLength(1)]
+        public string Gender { get; set; } = "";
+
+        [Column(TypeName = "date")]
+        [Display(Name = "Birthday")]
+        public DateTime? DateOfBirth { get; set; } = null;
+        
         [NotMapped]
-        public int? Age { get; set; }
+        public int? Age => DateOfBirth.ElapsedYearsUntil(DateTime.Today);
+        
         [Column(TypeName = "decimal(5, 2)")]
         public decimal? Height { get; set; }
+        
         [Column(TypeName = "real")] 
         public float? Weight { get; set; }
-        [Column(TypeName = "varbinary(max)")]
-        public byte[] RowVersion { get; set; }
+        
+        [Display(Name = "E-Mail")]
+        [MaxLength(100)]
+        [RegularExpression(@"^(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-*)|(\w+\.))*\w+\.[a-zA-Z]{2,6}$",
+                           ErrorMessage = "Email appears to be invalid.")]
+        public string Email { get; set; } = "";
+        
+        [Display(Name = "Created on")]
+        [ReadOnly(true)]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+        [Display(Name = "Last update")]
+        [ReadOnly(true)]
+        public DateTime? UpdatedOn { get; set; } = null;
 
         // Fully defined One-to-Many relationship at both ends (dependen entity is Student, and principal entity is Grade)
         // Visit: topic "Convention 4" in

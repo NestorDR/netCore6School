@@ -7,8 +7,12 @@ namespace SchoolWeb.Helper
     public static class EnumExtension
     {
         /// <summary>
-        /// // Get friendly name from [Display(Name=...)] or [Description(...)] attributes
+        /// Gets friendly name of an enum value from its [Display(Name=...)] or [Description(...)] attributes
         /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="e">Enum value to get its friendly name</param>
+        /// <param name="defaultValue">Default value to return</param>
+        /// <returns>Friendly name</returns>
         public static string GetFriendlyText<T>(this T e, string defaultValue = "") where T : IConvertible
         {
             // Get friendly text from [Display(Name=...)] Data Annotation
@@ -24,8 +28,12 @@ namespace SchoolWeb.Helper
         }
 
         /// <summary>
-        /// Get friendly name from [Description(...)] attribute
+        /// Gets friendly name of an enum value from its [Description(...)] attribute
         /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="e">Enum value to get its friendly name</param>
+        /// <param name="defaultValue">Default value to return</param>
+        /// <returns>Friendly name</returns>
         public static string GetDescription<T>(this T e, string defaultValue = "") where T : IConvertible
         {
             if (e is Enum)
@@ -42,9 +50,14 @@ namespace SchoolWeb.Helper
         }
 
         /// <summary>
-        /// Get friendly name from [Display(Name=...)] data annotation
+        /// Gets friendly name of an enum value from its [Display(Name=...)] data annotation
         /// Visit https://stackoverflow.com/questions/13099834/how-to-get-the-display-name-attribute-of-an-enum-member-via-mvc-razor-code#answer-13100409
         /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="e">Enum value to get its friendly name</param>
+        /// <param name="defaultValue">Default value to return</param>
+        /// <returns>Friendly name</returns>
+
         public static string GetDisplayName<T>(this T e, string defaultValue = "") where T : IConvertible
         {
             if (e is Enum)
@@ -54,8 +67,6 @@ namespace SchoolWeb.Helper
 
                 DisplayAttribute[] displayAttributes = (DisplayAttribute[])fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false);
                 if (displayAttributes.Length > 0) return $"{displayAttributes[0].Name}";
-
-                //if (string.IsNullOrWhiteSpace(displayValue)) displayValue = GetDescription(value, defaultValue);
             }
 
         done:

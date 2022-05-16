@@ -17,23 +17,31 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
 
 <div class="container">
     <div class="row">
-        <div class="col-7"><h6>Name</h6></div>
-        <div class="col-4"><h6>Teaching Mode</h6></div>
+        <div class="col-2"><h6>@Html.DisplayNameFor(model => model.Name)</h6></div>
+        <div class="col-1 text-center"><h6>@Html.DisplayNameFor(model => model.Gender)</h6></div>
+        <div class="col-1 text-center"><h6>@Html.DisplayNameFor(model => model.Age)</h6></div>
+        <div class="col-1 text-center"><h6>@Html.DisplayNameFor(model => model.Active)</h6></div>
+        <div class="col-2"><h6>@Html.DisplayNameFor(model => model.TeachingMode)</h6></div>
+        <div class="col-4"><h6>@Html.DisplayNameFor(model => model.Email)</h6></div>
     </div>
     @foreach (var item in Model)
     {
         <div class="row py-1 align-items-center">
-            <div class="col-7">@item.Name</div>
-            <div class="col-4">@item.TeachingModeDescription</div>
+            <div class="col-2">@Html.DisplayFor(model => item.Name)</div>
+            <div class="col-1 text-center">@Html.DisplayFor(model => item.Gender)</div>
+            <div class="col-1 text-center">@Html.DisplayFor(model => item.Age)</div>
+            <div class="col-1 text-center">@Html.DisplayFor(model => item.ActiveAsYesNo)</div>
+            <div class="col-2">@Html.DisplayFor(model => item.TeachingModeDescription)</div>
+            <div class="col-4">@Html.DisplayFor(model => item.Email)</div>
             <div class="col-1 d-flex justify-content-end">
                 <a asp-controller="Teacher" asp-action="Edit" asp-route-id="@item.Id" 
-                   type="button" class="mx-1 btn btn-info btn-in-row" data-toggle="tooltip" title="Edit">
-                   <i class="bi bi-pencil"></i>
-               </a>
+                    type="button" class="mx-1 btn btn-info btn-in-row" data-toggle="tooltip" title="Edit">
+                    <i class="bi bi-pencil"></i>
+                </a>
                 <a asp-controller="Teacher" asp-action="Delete" asp-route-id="@item.Id" 
-                   type="button" class="mx-1 btn btn-danger btn-in-row" data-toggle="tooltip" title="Delete">
-                   <i class="bi bi-trash-fill"></i>
-               </a>
+                    type="button" class="mx-1 btn btn-danger btn-in-row" data-toggle="tooltip" title="Delete">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
             </div>
         </div>
     }

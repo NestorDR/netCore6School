@@ -13,35 +13,84 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
 <h2>@ViewData["Title"]</h2>
 
 <form class="d-flex p-2 flex-column" method="post">
-    @*Summarize the error messages from all validation controls and display them in a bulleted list.*@
-    @*<div asp-validation-summary="All"></div>*@
+    @* Summarize the error messages from all validation controls and display them in a bulleted list. *@
+    @* <div asp-validation-summary="All"></div> *@
     
+    @* Full name *@
     <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" maxlength="100" type="text" autofocus>
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" autofocus>
     </div>
-    <div class="form-control-validation">
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <span asp-validation-for="Name" class="form-control-validation text-danger"></span>
+
+    @* Gender and Birthay *@
+    <div class="d-flex">
+        <div class="w-50">
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" asp-items="DropDownListHelper.GetGenderList()" class="form-control"></select>
+            </div>
+            <span asp-validation-for="Gender" class="form-control-validation text-danger"></span>
+        </div>
+        <div class="w-50">
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+            </div>
+            <span asp-validation-for="DateOfBirth" class="form-control-validation text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="TeachingMode"></label>
-        <select asp-for="TeachingMode" asp-items="Html.GetEnumSelectList<TeachingMode>()" 
-            class="form-control"></select>
+    @* Teaching mode, and Is active? *@
+    <div class="d-flex">
+        <div class="w-50">
+            <div class="form-group">
+                <label asp-for="TeachingMode"></label>
+                <select asp-for="TeachingMode" asp-items="Html.GetEnumSelectList<TeachingMode>()" 
+                    class="form-control"></select>
+            </div>
+            <span asp-validation-for="TeachingMode" class="form-control-validation text-danger"></span>
+        </div>
+        <div class="w-50">
+            <div class="form-group form-check">
+                <label>&nbsp;</label>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+        </div>
     </div>
-    <div class="form-control-validation">
-        <span asp-validation-for="TeachingMode" class="text-danger"></span>
+
+    @* Email *@
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <span asp-validation-for="Email" class="form-control-validation text-danger"></span>
+    
+    @* Dates log *@
+    <div class="d-flex">
+        <div class="w-50">
+            <div class="form-group">
+                <label asp-for="CreatedOn" class="control-label"></label>
+                <label>@Html.DisplayFor(model => model.CreatedOn)</label>
+            </div>
+        </div>
+        <div class="w-50">
+            <div class="form-group">
+                <label asp-for="UpdatedOn" class="control-label"></label>
+                <label>@Html.DisplayFor(model => model.UpdatedOn)</label>
+            </div>
+        </div>
     </div>
 
     <div class="form-actions">
-        <a asp-controller="Teacher" asp-action="Index" class="btn btn-secondary" >Back to list</a>
+        <a asp-action="Index" class="btn btn-secondary" >Back to list</a>
         <button type="submit" class="btn btn-primary btn-lg">Save</button>
     </div>
 </form>
 
-@*Using partial view with jquery scripts, for form data validation on client side*@
 @section Scripts{
-	@{
-		<partial name="_ValidationScriptsPartial" />
-	}
+	@* Using partial view with jquery scripts, for form data validation on client side *@
+    @{ <partial name="_ValidationScriptsPartial" /> }
 }

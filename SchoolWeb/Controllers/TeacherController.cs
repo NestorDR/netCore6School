@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
 
@@ -12,125 +14,154 @@ namespace SchoolWeb.Controllers
          * DB Context service was added in Program.cs (the main program).
          * Then, inside controller constructor the AppDbContext implementation will be asked.
          */
-        private readonly AppDbContext _db;
-        
-        public TeacherController(AppDbContext db)
+        private readonly AppDbContext _context;
+
+        public TeacherController(AppDbContext context)
         {
             // Keep Db Context on local object to access data later
-            _db = db;
+            _context = context;
         }
 
-        public IActionResult Index()
+        // GET: Teacher
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Models.Teacher>? _teachers = _db.Teachers;
-            return View(_teachers);
+            return _context.Teachers != null ?
+                View(await _context.Teachers.OrderBy(t => t.Name).ToListAsync()) :
+                Problem("Entity set 'AppDbContext.Teachers' is null.");
         }
 
+        // GET: Teacher/Create
         public IActionResult Create()
         {
             // Return only the view without data
             return View();
         }
 
+        // POST: Teacher/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]          // Prevents Cross-site request forgery attack (also known as XSRF or CSRF)
-        public IActionResult Create(Teacher obj)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Teacher teacher)
         {
             // Check if the teacher's name already exists in the database.
-            if (!string.IsNullOrWhiteSpace(obj.Name))
+            if (!string.IsNullOrWhiteSpace(teacher.Name))
             {
-                var sameTeacherCounter = (from teacher in _db.Teachers
-                                            where teacher.Name == obj.Name
-                                            select teacher).Count();
+                var sameTeacherCounter = (from t in _context.Teachers
+                                          where t.Name == teacher.Name
+                                          select t).Count();
 
                 if (sameTeacherCounter > 0)
-                    ModelState.AddModelError("Name", $"{obj.Name} already exists in the database.");
+                    ModelState.AddModelError("Name", $"{teacher.Name} already exists in the database.");
             }
-                        
             // Model state represents errors that come from two subsystems: model binding and model validation. 
-            if (!ModelState.IsValid) return View(obj);
-            
-            // Add a new entity to this context (_db), which will insert a new record in the database when you call the SaveChanges() method.
-            _db.Teachers.Add(obj);
+            if (!ModelState.IsValid) return View(teacher);
+
+            // Add a new entity to this context (_db), which will insert a new record in the database when you call the SaveChangesAsync() method.
+            _context.Add(teacher);
             // Saves all changes made in this context to the database
-            _db.SaveChanges();
+            await _context.SaveChangesAsync();
             // Reporting success. TempData is used to pass data between two consecutive requests.
             // Visit https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc/
             TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} added successfully.";
             // Return redirection to the index view, which has the item list 
-            return RedirectToAction("Index");                  
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Edit(int? id)
+        // GET: Teacher/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || id == 0) return NotFound();
+            if (id == null || _context.Teachers == null) return NotFound();
 
             // Retrieve teacher from DB
-            Teacher? obj = _db.Teachers.FirstOrDefault(t => t.Id == id);
-            if (obj == null) return NotFound();
+            Teacher? teacher = await _context.Teachers.FindAsync(id);
+            if (teacher == null) return NotFound();
 
             // Return found teacher
-            return View(obj);
+            return View(teacher);
         }
 
+        // POST: Teacher/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]          // Prevents Cross-site request forgery attack (also known as XSRF or CSRF)
-        public IActionResult Edit(Teacher obj)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Teacher teacher)
         {
             // Check if the teacher's name already exists in the database.
-            if (!string.IsNullOrWhiteSpace(obj.Name))
+            if (!string.IsNullOrWhiteSpace(teacher.Name))
             {
-                var sameTeacherCounter = (from teacher in _db.Teachers
-                                            where teacher.Name == obj.Name && teacher.Id != obj.Id
-                                            select teacher).Count();
+                Task<int>? sameTeacherCounter = (from t in _context.Teachers
+                                                 where t.Name == teacher.Name && t.Id != teacher.Id
+                                                 select 5).CountAsync();
 
-                if (sameTeacherCounter > 0)
-                    ModelState.AddModelError("Name", $"{obj.Name} already exists in the database.");
+                if (sameTeacherCounter.Result > 0)
+                    ModelState.AddModelError("Name", $"{teacher.Name} already exists in the database.");
             }
-                        
+
             // Model state represents errors that come from two subsystems: model binding and model validation. 
-            if (!ModelState.IsValid) return View(obj);
-            
-            // Modify existent entity in this context (_db), which will update the record in the database when you call the SaveChanges() method.
-            _db.Teachers.Update (obj);
-            // Saves all changes made in this context to the database
-            _db.SaveChanges();
+            if (!ModelState.IsValid) return View(teacher);
+
+            try
+            {
+                teacher.Gender = teacher.Gender.ToUpper();
+                // Update updating date and time
+                teacher.UpdatedOn = DateTime.Now;
+                // Modify existent entity in this context (_db), which will update the record in the database when you call the SaveChangesAsync() method.
+                _context.Update(teacher);
+                // Saves all changes made in this context to the database
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TeacherExists(teacher.Id)) return NotFound();
+                throw;
+            }
+
             // Reporting success. TempData is used to pass data between two consecutive requests.
             // Visit https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc/
             TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} updated successfully.";
             // Return redirection to the index view, which has the item list 
-            return RedirectToAction("Index");                  
+            return RedirectToAction(nameof(Index));
+            
         }
 
-        public IActionResult Delete(int? id)
+        // GET: Teacher/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0) return NotFound();
 
             // Retrieve teacher from DB
-            Teacher? persistedTeacher = _db.Teachers.FirstOrDefault(t => t.Id == id);
-            if (persistedTeacher == null) return NotFound();
+            Teacher? teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.Id == id);
+            if (teacher == null) return NotFound();
 
             // Return found teacher
-            return View(persistedTeacher);
+            return View(teacher);
         }
 
+        // POST: Teacher/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]          // Prevents Cross-site request forgery attack (also known as XSRF or CSRF)
-        public IActionResult DeletePost(int? id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             // Retrieve teacher from DB
-            Teacher? obj = _db.Teachers.FirstOrDefault(t => t.Id == id);
-            if (obj == null) return NotFound();
+            var teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.Id == id);
+            if (teacher == null) return NotFound();
 
-            // Mark existent entity as deleted in this context (_db), which will delete the record in the database when you call the SaveChanges() method.
-            _db.Teachers.Remove (obj);
+            // Mark existent entity as deleted in this context (_db), which will delete the record in the database when you call the SaveChangesAsynx() method.
+            _context.Remove(teacher);
             // Saves all changes made in this context to the database
-            _db.SaveChanges();
+            await _context.SaveChangesAsync();
             // Reporting success. TempData is used to pass data between two consecutive requests.
             // Visit https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc/
             TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} deleted successfully.";
             // Return redirection to the index view, which has the item list 
-            return RedirectToAction("Index");                  
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool TeacherExists(int id)
+        {
+          return (_context.Teachers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

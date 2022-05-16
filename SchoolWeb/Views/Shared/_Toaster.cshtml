@@ -1,16 +1,13 @@
 ﻿
-@*
-    This partial view shows a toast in the upper right corner
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@* This partial view shows a toast in the upper right corner *@
 
 @if (TempData["success"] != null)
 {
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
-        <div id="toastr" class="toast align-items-center text-dark bg-light border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="toastr" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6">@TempData["success"]</div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             </div>
     </div>
