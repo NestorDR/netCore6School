@@ -51,8 +51,11 @@ namespace SchoolWeb.Models
         
         [Column(TypeName = "real")] 
         public float? Weight { get; set; }
-        
+
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "E-Mail")]
+        [DisplayFormat(ConvertEmptyStringToNull = true)]
+        [EmailAddress(ErrorMessage = "Invalid Email.")]         // Redounds with RegularExpression, but it is only as an example
         [MaxLength(100)]
         [RegularExpression(@"^(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-*)|(\w+\.))*\w+\.[a-zA-Z]{2,6}$",
                            ErrorMessage = "Email appears to be invalid.")]

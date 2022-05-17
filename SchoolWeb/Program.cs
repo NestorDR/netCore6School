@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-# region Add services to the dependency injection container.
+# region Add services to the DI Container.
+
+// From here start the added of services to the dependency injection container
+// Previous to ASP .Net Core 6 this services was added in ConfigureServices method of Startup.cs.
 
 // Add MVC service extension to support MVC app using controllers with views, but not razor pages
 builder.Services.AddControllersWithViews();
@@ -15,17 +18,22 @@ builder.Services.AddDbContext<AppDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-#endregion
-
 var app = builder.Build();
 
-// From here start the middleware pipeline that the request goes through before reaching the server
-# region Middleware Pipeline
+#endregion 
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+
+# region Configure the HTTP request pipeline with the necessary Middleware
+
+// ASP .Net Core create an HTTP App Pipeline that process the request.
+// From here start the middleware pipeline configuration. Pipeline that all the request goes through before reaching the server.
+// Previous to ASP .Net 6 Core this HTTP Pipeline was configured in Configure method of Startup.cs.
+
+// Here is read the environment var "ASPNETCORE_ENVIRONMENT" in .\properties\launchSettings.json
+if (!app.Environment.IsDevelopment())   
 {
     app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -36,7 +44,7 @@ app.UseHttpsRedirection();
 // Enable static files to be served.
 app.UseStaticFiles();
 
-// Add route matching to the middleware pipeline.
+// Add/Enable route matching to the middleware pipeline.
 // This middleware looks at the set of endpoints defined in the app, and selects the best match based on the request.
 app.UseRouting();
 
@@ -46,9 +54,11 @@ app.UseRouting();
 // Authorize a user to access secure resources.
 app.UseAuthorization();
 
+// Set default route, used if controller o action method aren't specified in the URL
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");     // Default route if controller o action method aren't specified in the URL
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 #endregion
 
