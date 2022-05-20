@@ -1,6 +1,4 @@
-﻿@using SchoolWeb.Enums
-@using SchoolWeb.Helper
-@model Teacher
+﻿@model Teacher
 
 @*
 Differences between ViewData, ViewBag and TempData    
@@ -17,7 +15,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
     @* Full name *@
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" readonly="@(true)">
+        <input asp-for="Name" class="form-control" readonly="@(true)/">
     </div>
 
     @* Gender and Birthay *@
@@ -25,7 +23,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
         <div class="w-50">
             <div class="form-group">
                 <label asp-for="Gender" class="control-label"></label>
-                <select asp-for="Gender" asp-items="DropDownListHelper.GetGenderList()" class="form-control" readonly="@(true)"></select>
+                <input value=@DropDownListHelper.SearchText(DropDownListHelper.GetGenderList(), Model.Gender, "") class="form-control" readonly="@(true)" />
             </div>
         </div>
         <div class="w-50">
@@ -78,7 +76,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
 
     <div class="form-actions">
        <input type="hidden" asp-for="Id" />
-        <a asp-action="Index" class="btn btn-secondary" >Back to list</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to list</a>
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Edit</a>
         <button type="submit" class="btn btn-danger">Delete</button>
     </div>

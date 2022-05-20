@@ -8,6 +8,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
     ViewData["Title"] = "Teachers";
 }
 
+@* Title *@
 <div class="container">
     <div class="row pb-3 align-items-center">
         <div class="col-8"><h2>@ViewData["Title"]</h2></div>
@@ -15,7 +16,9 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
     </div>
 </div>
 
+@* Table with data *@
 <div class="container">
+    @* Table header *@
     <div class="row">
         <div class="col-2"><h6>@Html.DisplayNameFor(model => model.Name)</h6></div>
         <div class="col-1 text-center"><h6>@Html.DisplayNameFor(model => model.Gender)</h6></div>
@@ -24,6 +27,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
         <div class="col-2"><h6>@Html.DisplayNameFor(model => model.TeachingMode)</h6></div>
         <div class="col-4"><h6>@Html.DisplayNameFor(model => model.Email)</h6></div>
     </div>
+    @* Table body *@
     @foreach (var item in Model)
     {
         <div class="row py-1 align-items-center">

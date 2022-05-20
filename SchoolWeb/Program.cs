@@ -41,8 +41,14 @@ if (!app.Environment.IsDevelopment())
 // Enforce redirect HTTP requests to HTTPS.
 app.UseHttpsRedirection();
 
-// Enable static files to be served.
+// Enable static files to be served from wwwroot folder, but...
 app.UseStaticFiles();
+// ... to use another static folder
+// app.UseStaticFiles(new StaticFileOptions() { 
+//     FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "MyStaticFolder")),
+//     RequestPath = "/MyStaticFolder"
+// });
+
 
 // Add/Enable route matching to the middleware pipeline.
 // This middleware looks at the set of endpoints defined in the app, and selects the best match based on the request.
