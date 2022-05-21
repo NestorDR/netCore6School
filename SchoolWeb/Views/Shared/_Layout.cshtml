@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SchoolWeb</title>
-    @*Bootstrap CSS*@
-    @*Originally, the VS template uses: <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>*@
+    <title>@ViewData["Title"] - SchoolWeb</title>   @* ViewData["Title"] is set in each <view>.cshtml file *@
+    @* Bootstrap CSS *@
+    @* Originally, the VS template uses: <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
     @*
         Bootswatch: Pre-Compiled CSS. Free themes for Bootstrap.
         Using the themes is as easy as downloading a CSS file and replacing the one that comes with Bootstrap.
@@ -13,10 +13,30 @@
                https://bootswatch.com/slate
                https://cdnjs.com/libraries/bootswatch
     *@    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.3/slate/bootstrap.min.css" 
-          integrity="sha512-lKxib8zP6dIxGCjD5AbC9emyFVlXedEg6pGLG08WfeLjcZjnKbHtSWL/+CFlQX8rB7AwEK8KbZUJFs3ip5cOtQ==" 
-          crossorigin="anonymous" referrerpolicy="no-referrer" asp-append-version="true"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" asp-append-version="true">
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootswatch/dist/slate/bootstrap.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/bootstrap-icons/dist/font/bootstrap-icons.min.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.3/slate/bootstrap.min.css" 
+              integrity="sha512-lKxib8zP6dIxGCjD5AbC9emyFVlXedEg6pGLG08WfeLjcZjnKbHtSWL/+CFlQX8rB7AwEK8KbZUJFs3ip5cOtQ=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" 
+              asp-fallback-href="~/lib/bootswatch/dist/slate/bootstrap.min.css"
+              asp-append-version="true"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+              asp-suppress-fallback-integrity="true" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.2/font/bootstrap-icons.min.css" 
+              integrity="sha512-YzwGgFdO1NQw1CZkPoGyRkEnUTxPSbGWXvGiXrWk8IeSqdyci0dEDYdLLjMxq1zCoU0QBa4kHAFiRhUL3z2bow==" 
+              crossorigin="anonymous" referrerpolicy="no-referrer"
+              asp-fallback-href="~/lib/bootstrap-icons/dist/font/bootstrap-icons.min.css"
+              asp-append-version="true"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+              asp-suppress-fallback-integrity="true" />
+     </environment>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SchoolWeb.styles.css" asp-append-version="true" />
 </head>
@@ -25,7 +45,8 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="img/school.jpg" class="rounded-circle" alt="logo" width="30" height="30"/>
+                    @* Use Image Tag Helper with asp-append-version="true", to ensure that if there is a new image it will be loaded from the server. *@
+                    <img src="~/img/school.jpg" asp-append-version="true" class="rounded-circle" alt="logo" width="30" height="30"/>
                     School Web
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -54,18 +75,17 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer mt-auto text-muted">
         <div class="container">
             Néstor D R &copy; @DateTime.Now.Year - School Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @*Bootstrap JS*@
-    @*Originally, the VS template uses: <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    @* Bootstrap JS *@
+    @* Originally, the VS template uses: <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script> *@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Teacher>
 
 @*
-Differences between ViewData, ViewBag and TempData    
+Differences between ViewData, ViewBag and TempData
 Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement-viewdata-in-asp-net-mvc
 *@
 @{
@@ -38,7 +38,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
             <div class="col-2">@Html.DisplayFor(model => item.TeachingModeDescription)</div>
             <div class="col-4">@Html.DisplayFor(model => item.Email)</div>
             <div class="col-1 d-flex justify-content-end">
-                <a asp-controller="Teacher" asp-action="Edit" asp-route-id="@item.Id" 
+                <a asp-controller="Teacher" asp-action="Edit" asp-route-id="@item.Id"
                     type="button" class="mx-1 btn btn-info btn-in-row" data-toggle="tooltip" title="Edit">
                     <i class="bi bi-pencil"></i>
                 </a>

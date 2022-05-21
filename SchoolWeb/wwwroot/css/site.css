@@ -1,9 +1,9 @@
 :root {
-    --form-label-min-width: 10rem;
+    --form-label-min-width: 8rem;
 }
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     :root {
-        --form-label-min-width: 8rem;
+        --form-label-min-width: 10rem;
     }
 }
 
