@@ -16,16 +16,16 @@ namespace SchoolWeb.Controllers
         }
 
         /* 
-         * The IActionResult interface is an abstraction for multiple return types
-         * Index action method can return a view, can redirect to some action method or redirect a page, or much more.
-         * But if you want you can return a ViewResult class thus: public ViewResult Index()
-         */
+          The IActionResult interface is an abstraction for multiple return types
+          Index action method can return a view, can redirect to some action method or redirect a page, or much more.
+          But if you want you can return a ViewResult class thus: public ViewResult Index()
+        */
         public IActionResult Index()
         {
             /*
-             * The view is searched or mapped as: views\<controller name prefix>\<action method name>.cshtml
-             * In this case it would be ........: views\home\index.cshtml
-             */
+              The view is searched or mapped as: views\<controller name prefix>\<action method name>.cshtml
+              In this case it would be ........: views\home\index.cshtml
+            */
             return View();
         }
 

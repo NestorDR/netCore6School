@@ -3,6 +3,16 @@
 ## Description
 My first project with ASP.NET Core (.NET 6) leaving from the basics structure to build a simple CRUD website.
 
+### Topics covered
+
+- New program style with implicit `using` directives
+- Leaving Startup.cs, the content of these methods is now coded into Program.cs
+  - ConfigureServices() for registration services for dependency injection, and
+  - Configure(), to delineate the order and structure of the middleware pipeline
+- Use and extension of Tag helpers and Data Annotations Attributes
+- Client side libraries integrity
+- Bootstrap 5.1.3 and Bootswatch
+
 ## Screenshots
 ![Index - Screenshot](/assets/index.png "Teachers Index - Screenshot")
 

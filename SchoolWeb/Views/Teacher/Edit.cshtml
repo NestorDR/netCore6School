@@ -11,8 +11,11 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
 <h2>@ViewData["Title"]</h2>
 
 <form class="d-flex p-2 flex-column" method="post">
-    @* Summarize the error messages from all validation controls and display them in a bulleted list. *@
-    @* <div asp-validation-summary="All"></div> *@
+    @* 
+        Summarize the error messages from all validation controls and display them in a bulleted list.
+        If your validation-summary=modelOnly, general errors that are not specific to any one property will be showed.
+    *@
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     
     @* Full name *@
     <div class="form-group">

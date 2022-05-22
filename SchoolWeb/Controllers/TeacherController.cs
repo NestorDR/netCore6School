@@ -8,11 +8,10 @@ namespace SchoolWeb.Controllers
     public class TeacherController : Controller
     {
         /* 
-         * Ask to the dependency injection container the AppDbContext object to access the 
-         * database. This AppDbContext object was registered inside DI Container when the 
-         * DB Context service was added in Program.cs (the main program).
-         * Then, inside controller constructor the AppDbContext implementation will be asked.
-         */
+         Ask to the dependency injection container the AppDbContext object to access the database.
+         This AppDbContext object was registered inside DI Container when the DB Context service was added in Program.cs (the main program).
+         Then, inside controller constructor the AppDbContext implementation will be asked.
+        */
         private readonly AppDbContext _context;
 
         public TeacherController(AppDbContext context)
@@ -50,7 +49,7 @@ namespace SchoolWeb.Controllers
                                           select t).Count();
 
                 if (sameTeacherCounter > 0)
-                    ModelState.AddModelError("Name", $"{teacher.Name} already exists in the database.");
+                    ModelState.AddModelError("", $"{teacher.Name} already exists in the database.");
             }
             // Model state represents errors that come from two subsystems: model binding and model validation. 
             if (!ModelState.IsValid) return View(teacher);
@@ -93,7 +92,7 @@ namespace SchoolWeb.Controllers
                                                  select 5).CountAsync();
 
                 if (sameTeacherCounter.Result > 0)
-                    ModelState.AddModelError("Name", $"{teacher.Name} already exists in the database.");
+                    ModelState.AddModelError("", $"{teacher.Name} already exists in the database.");
             }
 
             // Model state represents errors that come from two subsystems: model binding and model validation. 

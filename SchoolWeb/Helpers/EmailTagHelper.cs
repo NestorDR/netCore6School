@@ -4,13 +4,13 @@ namespace SchoolWeb.Helpers
 {
     /// <summary>
     /// Customized TagHelper class. Shows an email link using an anchor tag (<a>)
+    /// Visit: https://www.youtube.com/watch?v=C7UkHzpOJvc&list=PLaFzfwmPR7_LTXu0Vz9Zz_Y0OMMC7ArHZ&index=63&ab_channel=WebGentle
     /// </summary>
     public class EmailTagHelper : TagHelper
     {
         /// <summary>
-        /// Content to show
+        /// Content to display (if empty, it will be replaced with the Email property)
         /// </summary>
-        
         public string Content { get; set; } = "";
         /// <summary>
         /// Email to use
@@ -33,7 +33,7 @@ namespace SchoolWeb.Helpers
             if (string.IsNullOrWhiteSpace(Content)) Content = Email;
             output.Content.SetContent(Content);
             
-            //base.Process(context, output);
+            base.Process(context, output);
         }
     }
 }
