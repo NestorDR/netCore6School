@@ -1,7 +1,7 @@
 # .Net Core 6 - School Stage
 
 ## Description
-My first project with ASP.NET Core (.NET 6) leaving from the basics structure to build a simple CRUD website.
+My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-6.0?view=aspnetcore-6.0) leaving from the basics structure to build a simple CRUD website.
 
 ### Topics covered
 
