@@ -5,14 +5,14 @@ My first project with ASP.NET Core (.NET 6) leaving from the basics structure to
 
 ### Topics covered
 
-- New program style with implicit `using` directives
-- Leaving Startup.cs, the content of these methods is now coded into Program.cs
+- New program style with implicit `using` directives.
+- Leaving Startup.cs, the content of these methods is now coded into Program.cs.
   - ConfigureServices() for registration services for dependency injection, and
-  - Configure(), to delineate the order and structure of the middleware pipeline
-- Use and extension of Tag helpers and Data Annotations Attributes
-- Client side libraries integrity
-- Use of Bootstrap 5.1.3 and Bootswatch
-- Toaster and jQuery Validation as partial views
+  - Configure(), to delineate the order and structure of the middleware pipeline.
+- Use and extension of Tag helpers and Data Annotations Attributes.
+- Client side libraries integrity.
+- Use of [Bootstrap 5.1.3](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and [Bootswatch](https://bootswatch.com/slate/) theme.
+- Toaster and jQuery Validation as partial views.
 
 ## Screenshots
 ![Index - Screenshot](/assets/index.png "Teachers Index - Screenshot")
