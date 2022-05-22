@@ -10,7 +10,13 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
 
 <h2>@ViewData["Title"]</h2>
 
-<form class="d-flex p-2 flex-column" method="post">
+@{
+    // TODO: Uplodad image
+    // The enctype attribute specifies how the form-data should be encoded when submitting it to the server. It can be used only if method="post".
+    // "multipart/form-data" value is necessary if the user will upload a file through the form.
+
+}
+<form  method="post" class="d-flex p-2 flex-column">
     @* 
         Summarize the error messages from all validation controls and display them in a bulleted list.
         If your validation-summary=modelOnly, general errors that are not specific to any one property will be showed.
