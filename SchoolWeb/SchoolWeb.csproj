@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Helper\EnumHelper.cs" />
+    <Compile Remove="Helpers\EnumHelper.cs" />
   </ItemGroup>
 
   <ItemGroup>

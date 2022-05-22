@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews();
 // Add DB context service that tells the app that it has to use the DbContext which has inside AppDbContext,
 //   and over a SQL Server set using the connection string defined in .\appsettings.json
 builder.Services.AddDbContext<AppDbContext>(
-    // Method GetConnectionString only look inside de block "ConnectionStrings" of appsettings.json
+    // Method GetConnectionString only look inside de block "ConnectionStrings" of .\appsettings.json
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 

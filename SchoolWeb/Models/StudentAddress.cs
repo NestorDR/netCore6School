@@ -35,6 +35,7 @@ namespace SchoolWeb.Models
         public string City { get; set; } = string.Empty;
 
         [Column(TypeName = "smallint")]
+        [DataType(DataType.PostalCode)]
         [Display(Name = "Zip Code", Prompt = "Enter the zip code of the city")]
         [Range(1000, 9999, ErrorMessage = "Zip code must be between 1000 and 9999.")]
         public int? Zipcode { get; set; }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace SchoolWeb.Helper
+namespace SchoolWeb.Helpers
 {
     public static class EnumExtension
     {

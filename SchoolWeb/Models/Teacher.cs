@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolWeb.Enums;
-using SchoolWeb.Helper;
+using SchoolWeb.Helpers;
 
 namespace SchoolWeb.Models
 {
@@ -36,7 +36,7 @@ namespace SchoolWeb.Models
         [Display(Name = "Full name", Prompt = "Enter the teacher full name")]
         [MaxLength(100)]                                        // MaxLength is used for the EF to decide how large to make a string value field when it creates the DB.
         [Required(ErrorMessage = "Name is required.")]
-        [StringLengthAttributeHelper(100, MinimumLength = 3)]   // StringLengthAttributeHelper extends StringLength base data annotation and will be used for validation of user input.
+        [StringLengthAttributeHelper(minimumLength: 3, maximumLength: 100)]   // StringLengthAttributeHelper extends StringLength base data annotation and will be used for validation of user input.
         public string Name { get; set; } = String.Empty;
 
         [Column(TypeName = "nvarchar")]

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace SchoolWeb.Helper
+namespace SchoolWeb.Helpers
 {
     public static class DropDownListHelper
     {

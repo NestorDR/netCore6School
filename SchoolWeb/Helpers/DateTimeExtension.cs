@@ -1,4 +1,4 @@
-﻿namespace SchoolWeb.Helper
+﻿namespace SchoolWeb.Helpers
 {
     public static class DateTimeExtension
     {
