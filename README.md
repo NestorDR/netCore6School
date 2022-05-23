@@ -6,7 +6,7 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 ### Topics covered
 
 - New program style with implicit `using` directives.
-- Leaving Startup.cs, the content of these methods is now coded into Program.cs.
+- Leaving Startup.cs, the content of these methods is now coded into Program.cs
   - ConfigureServices() for registration services for dependency injection, and
   - Configure(), to delineate the order and structure of the middleware pipeline.
 - Use and extension of Tag helpers and Data Annotations Attributes.

@@ -7,21 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\lib\bootstrap_old\**" />
-    <Content Remove="wwwroot\lib\bootstrap_old\**" />
-    <EmbeddedResource Remove="wwwroot\lib\bootstrap_old\**" />
-    <None Remove="wwwroot\lib\bootstrap_old\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Helpers\EnumHelper.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Models\TextFile.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Views\Teacher\Create.cshtml" />
     <None Include="Views\Teacher\Delete.cshtml" />
     <None Include="Views\Teacher\Edit.cshtml" />

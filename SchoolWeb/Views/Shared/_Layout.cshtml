@@ -69,17 +69,20 @@
             </div>
         </nav>
     </header>
+    
     <div class="container">
         <main role="main" class="pb-3">
             <partial name="_Toaster" />
             @RenderBody()
         </main>
     </div>
+    
     <footer class="border-top footer text-muted">
         <div class="container">
-            School Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> - Néstor D R &copy; @DateTime.Now.Year - <email email="ndr1970@gmail.com"></email> 
+            <email mail-to="ndr1970@gmail.com">Néstor D R</email> &copy; @DateTime.Now.Year - School Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    
     <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
     @* Bootstrap JS *@
     @* Originally, the VS template uses: <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" /> *@
