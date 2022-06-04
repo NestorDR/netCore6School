@@ -66,6 +66,7 @@ namespace SchoolWeb.Controllers
         }
 
         // GET: Teacher/Edit/5
+        [Route("Edit/{id:int:min(1)}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Teachers == null) return NotFound();
@@ -123,6 +124,8 @@ namespace SchoolWeb.Controllers
         }
 
         // GET: Teacher/Delete/5
+        [HttpGet]
+        [Route("Delete/{id:int:min(1)}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0) return NotFound();
@@ -136,7 +139,8 @@ namespace SchoolWeb.Controllers
         }
 
         // POST: Teacher/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]   //, ActionName("Delete")]
+        [Route("Delete/{id:int:min(1)}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

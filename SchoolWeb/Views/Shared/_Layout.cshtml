@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IConfiguration _configuration
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -47,7 +49,7 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     @* Use Image Tag Helper with asp-append-version="true", to ensure that if there is a new image it will be loaded from the server. *@
                     <img src="~/img/school.jpg" asp-append-version="true" class="rounded-circle" alt="logo" width="30" height="30"/>
-                    School Web
+                    @_configuration["AppName"] 
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
