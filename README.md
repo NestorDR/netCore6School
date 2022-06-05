@@ -9,7 +9,7 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 - Leaving Startup.cs, the content of these methods is now coded into Program.cs
   - ConfigureServices() for registration services for dependency injection, and
   - Configure(), to delineate the order and structure of the middleware pipeline.
-- Conventional routing with combination of constraints
+- Conventional and attribute routing with combination of constraints
 - Use and extension of Tag helpers and Data Annotations Attributes.
 - Client side libraries integrity.
 - Use of [Bootstrap 5.1.3](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and [Bootswatch](https://bootswatch.com/slate/) theme.

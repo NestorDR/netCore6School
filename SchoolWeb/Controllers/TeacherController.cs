@@ -66,7 +66,8 @@ namespace SchoolWeb.Controllers
         }
 
         // GET: Teacher/Edit/5
-        [Route("Edit/{id:int:min(1)}")]
+        [HttpGet]
+        [Route("Edit/{id:int:min(1)}")]             // Attribute routing with combination of constraints
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Teachers == null) return NotFound();
@@ -82,6 +83,7 @@ namespace SchoolWeb.Controllers
         // POST: Teacher/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to. For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("Edit/{id:int:min(1)}")]             // Attribute routing with combination of constraints
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Teacher teacher)
         {
@@ -120,12 +122,11 @@ namespace SchoolWeb.Controllers
             TempData["success"] = $"{this.GetType().Name.Replace("Controller", "")} updated successfully.";
             // Return redirection to the index view, which has the item list 
             return RedirectToAction(nameof(Index));
-            
         }
 
         // GET: Teacher/Delete/5
         [HttpGet]
-        [Route("Delete/{id:int:min(1)}")]
+        [Route("Delete/{id:int:min(1)}")]           // Attribute routing with combination of constraints
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0) return NotFound();
@@ -140,7 +141,7 @@ namespace SchoolWeb.Controllers
 
         // POST: Teacher/Delete/5
         [HttpPost]   //, ActionName("Delete")]
-        [Route("Delete/{id:int:min(1)}")]
+        [Route("Delete/{id:int:min(1)}")]           // Attribute routing with combination of constraints
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

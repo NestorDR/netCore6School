@@ -1,4 +1,9 @@
-﻿@inject IConfiguration _configuration
+﻿@* 
+    Using Dependency Injection tecnique. 
+    It's injected with an Microsoft.Extensions.Configuration.IConfiguration object to read appsettings.json file 
+*@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +54,8 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     @* Use Image Tag Helper with asp-append-version="true", to ensure that if there is a new image it will be loaded from the server. *@
                     <img src="~/img/school.jpg" asp-append-version="true" class="rounded-circle" alt="logo" width="30" height="30"/>
-                    @_configuration["AppName"] 
+                    @* Access to appsettings.json configuration file to get the application name *@ 
+                    @(_configuration.GetValue<string>("AppName"))
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +91,7 @@
         </div>
     </footer>
     
-    <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     @* Bootstrap JS *@
     @* Originally, the VS template uses: <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" /> *@
     <environment include="Development">
