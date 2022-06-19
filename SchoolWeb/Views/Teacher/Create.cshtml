@@ -1,4 +1,4 @@
-﻿@model Teacher
+﻿@model TeacherModel
 
 @*
 Differences between ViewData, ViewBag and TempData    
@@ -19,7 +19,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
     
      @* Full name *@
     <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
+        <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" autofocus>
     </div>
     <span asp-validation-for="Name" class="form-control-validation text-danger"></span>
@@ -28,7 +28,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
     <div class="d-flex">
         <div class="w-50">
             <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
+                <label asp-for="Gender" class="form-label"></label>
                 <select asp-for="Gender" asp-items="DropDownListHelper.GetGenderList()" class="form-control"></select>
             </div>
 
@@ -36,7 +36,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
         </div>
         <div class="w-50">
             <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
+                <label asp-for="DateOfBirth" class="form-label"></label>
                 <input asp-for="DateOfBirth" class="form-control" />
             </div>
             <span asp-validation-for="DateOfBirth" class="form-control-validation text-danger"></span>
@@ -65,7 +65,7 @@ Visit: https://www.red-gate.com/simple-talk/blogs/what-is-viewdata-and-implement
 
     @* Email *@
     <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
+        <label asp-for="Email" class="form-label"></label>
         <input asp-for="Email" class="form-control" />
     </div>
     <span asp-validation-for="Email" class="form-control-validation text-danger"></span>

@@ -36,10 +36,10 @@ namespace SchoolWeb.Controllers
         }
 
         // POST: Teacher/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to. For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from over-posting attacks, enable the specific properties you want to bind to. For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Teacher teacher)
+        public async Task<IActionResult> Create(TeacherModel teacher)
         {
             // Check if the teacher's name already exists in the database.
             if (!string.IsNullOrWhiteSpace(teacher.Name))
@@ -73,7 +73,7 @@ namespace SchoolWeb.Controllers
             if (id == null || _context.Teachers == null) return NotFound();
 
             // Retrieve teacher from DB
-            Teacher? teacher = await _context.Teachers.FindAsync(id);
+            TeacherModel? teacher = await _context.Teachers.FindAsync(id);
             if (teacher == null) return NotFound();
 
             // Return found teacher
@@ -85,14 +85,14 @@ namespace SchoolWeb.Controllers
         [HttpPost]
         [Route("Edit/{id:int:min(1)}")]             // Attribute routing with combination of constraints
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Teacher teacher)
+        public async Task<IActionResult> Edit(TeacherModel teacher)
         {
             // Check if the teacher's name already exists in the database.
             if (!string.IsNullOrWhiteSpace(teacher.Name))
             {
-                Task<int>? sameTeacherCounter = (from t in _context.Teachers
-                                                 where t.Name == teacher.Name && t.Id != teacher.Id
-                                                 select 5).CountAsync();
+                Task<int> sameTeacherCounter = (from t in _context.Teachers
+                    where t.Name == teacher.Name && t.Id != teacher.Id
+                    select 5).CountAsync();
 
                 if (sameTeacherCounter.Result > 0)
                     ModelState.AddModelError("", $"{teacher.Name} already exists in the database.");
@@ -132,7 +132,7 @@ namespace SchoolWeb.Controllers
             if (id == null || id == 0) return NotFound();
 
             // Retrieve teacher from DB
-            Teacher? teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.Id == id);
+            TeacherModel? teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null) return NotFound();
 
             // Return found teacher
@@ -149,7 +149,8 @@ namespace SchoolWeb.Controllers
             var teacher = await _context.Teachers.FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null) return NotFound();
 
-            // Mark existent entity as deleted in this context (_db), which will delete the record in the database when you call the SaveChangesAsynx() method.
+            // Mark existent entity as deleted in this context (_db), which will delete the record in the database when
+            //  you call the SaveChangesAsync() method.
             _context.Remove(teacher);
             // Saves all changes made in this context to the database
             await _context.SaveChangesAsync();

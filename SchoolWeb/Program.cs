@@ -1,5 +1,10 @@
-using SchoolWeb.Data;
+// The typical pattern is to call methods in the following order:
+//      builder.Services.Add{Service}
+//      builder.Services.Configure{Service}
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolWeb.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // From here start the added of services to the dependency injection container
 // Previous to ASP .Net Core 6 this services was added in ConfigureServices method of Startup.cs.
 
-// Add MVC service extension to support MVC app using controllers with views, but not razor pages
+// Add MVC service extension to support MVC app using controllers with views, but not razor pages.
+// AddControllersWithViews method covers MVC, and AddMvc method covers both MVC and Razor Pages. I never would have guessed that. 
 builder.Services.AddControllersWithViews();
 
 // Add DB context service that tells the app that it has to use the DbContext which has inside AppDbContext,
@@ -17,6 +23,43 @@ builder.Services.AddDbContext<AppDbContext>(
     // Method GetConnectionString only look inside de block "ConnectionStrings" of .\appsettings.json
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+// Identity Framework Services are made available to the app through dependency injection.
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+// Identity Framework settings
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 1000;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
 
 var app = builder.Build();
 
@@ -55,10 +98,15 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // Authenticate the user before they're allowed access to secure resources.
-// app.UseAuthentication();         // Here would be the auth, if it were implemented
+app.UseAuthentication();
 
 // Authorize a user to access secure resources.
 app.UseAuthorization();
+
+// Set default route when areas are used, but controller o action method aren't specified in the URL
+app.MapControllerRoute(
+    name: "MyArea",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 // Set default route, used if controller o action method aren't specified in the URL
 app.MapControllerRoute(

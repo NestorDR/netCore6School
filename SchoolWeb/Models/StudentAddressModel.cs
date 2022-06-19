@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolWeb.Models
 {
-    public class StudentAddress
+    public class StudentAddressModel
     {
         /*
          * System.ComponentModel.DataAnnotations Namespace Documentation
@@ -63,6 +63,6 @@ namespace SchoolWeb.Models
         // Fully defined One-to-One relationship at both ends (dependen entity is StudentAddress, and principal entity is Student)
         public int StudentId { get; set; }
         // Reference Navigation property: is a property of another entity type
-        public virtual Student Student { get; set; }            // One-to-One Relationship
+        public virtual StudentModel Student { get; set; } = new StudentModel(); // One-to-One Relationship
     }
 }

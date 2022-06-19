@@ -1,9 +1,14 @@
 :root {
-    --form-label-min-width: 8rem;
+    --form-label-min-width: 0rem;
 }
 @media (min-width: 768px) {
     :root {
         --form-label-min-width: 10rem;
+    }
+}
+@media (min-width: 576px) {
+    :root {
+        --form-label-min-width: 8rem;
     }
 }
 
