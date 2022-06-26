@@ -17,6 +17,7 @@ namespace SchoolWeb.Helpers
         /// <summary>
         /// Synchronously executes the Microsoft.AspNetCore.Razor.TagHelpers.TagHelper with the given context and output.
         /// </summary>
+        /// <param name="context">Contains information associated with the current HTML tag.</param>
         /// <param name="output">A stateful HTML element used to generate an HTML tag.</param>
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {

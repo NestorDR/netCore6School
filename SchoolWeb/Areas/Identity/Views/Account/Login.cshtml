@@ -1,0 +1,125 @@
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="row">
+    <div class="col-md-7 d-flex align-items-center justify-content-center px-0">
+        @* For images visit https://pixabay.com/collections/dual-tone-icon-set-927933/?pagi=1 *@
+        <img src="~/img/log-in-6398177.svg" class="w-50 rounded-circle mx-auto d-block" alt="Register a new account" />
+    </div>
+
+    <div class="col-md-5 d-flex align-items-center justify-content-center px-0 py-4">
+        <div class="d-block">
+        <h2>@ViewData["Title"]</h2>
+
+        <form id="loginForm" method="post">
+            <h3>Use a local account to log in.</h3>
+            @*
+            Summarize the error messages from all validation controls and display them in a bullet-ed list.
+            If your validation-summary=modelOnly, general errors that are not specific to any one property will be showed.
+            *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* User's e-mail address *@
+            <div class="form-group">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true"/>
+            </div>
+            <span asp-validation-for="Email" class="form-control-validation text-danger"></span>
+
+            @* User's password *@
+            <div class="form-group">
+                <label asp-for="Password" class="form-label"></label>
+                <div class="input-group">
+                    <input id="password" asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                    <span class="input-group-text">
+                        <i id="toggle-password" class="bi bi-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+            <span asp-validation-for="Password" class="form-control-validation text-danger"></span>
+
+            <div>
+                <div class="form-group form-check">
+                    <label asp-for="RememberMe" class="form-label">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                        </label>
+                    </label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="login-submit" type="submit" class="btn btn-primary btn-lg">Log in</button>
+            </div>
+            <div>
+                <p>
+                    <a id="forgot-password" asp-area="Identity" asp-controller="Account" asp-action="ForgotPassword">Forgot your password?</a>
+                </p>
+                <p>
+                    <a asp-area="Identity" asp-controller="Account" asp-action="Register" asp-route-returnUrl="Model.ReturnUrl">Register as a new user</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-area="Identity" asp-controller="Account" asp-action="ResendEmailConfirmation">Resend email confirmation</a>
+                </p>
+            </div>
+        </form>
+
+        <section>
+            <h3>Use another service to log in.</h3>
+            <hr />
+            @{
+            if ((Model?.ExternalLogins?.Count ?? 0) == 0)
+            {
+            <div>
+                <p>
+                    There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                        article
+                        about setting up this ASP.NET application to support logging in via external services
+                    </a>.
+                </p>
+            </div>
+            }
+            else
+            {
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        @foreach (var provider in Model.ExternalLogins)
+                        {
+                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                        }
+                    </p>
+                </div>
+            </form>
+            }
+            }
+        </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* Using partial view with jquery scripts, for form data validation on client side *@
+    <partial name="_ValidationScriptsPartial" />
+
+    @* Toggle password visibility based on id attribute *@
+    <script type="text/javascript">
+        const togglePassword = document.querySelector('#toggle-password');
+
+        togglePassword.addEventListener('click', () => {
+            
+            const password = document.querySelector('#password');
+            
+            // Toggle the type attribute using getAttribute() method
+            const type = password.getAttribute('type') === 'password'
+                ? 'text'
+                : 'password';
+
+            password.setAttribute('type', type);
+
+            // Toggle the eye and bi-eye icon
+            togglePassword.classList.toggle('bi-eye');
+        });
+    </script>
+}

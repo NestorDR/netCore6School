@@ -109,6 +109,8 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @* Now the section named "Scripts" in each view will be rendered below, because this is specified here in the layout. *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

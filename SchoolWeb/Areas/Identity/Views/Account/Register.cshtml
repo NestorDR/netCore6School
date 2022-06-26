@@ -5,17 +5,18 @@
 
 <div class="row">
     <div class="col-md-7 d-flex align-items-center justify-content-center px-0">
-        <img src="~/img/register.svg" class="w-75 mx-auto d-block" alt="Register a new account"/>
+        @* For images visit https://pixabay.com/collections/dual-tone-icon-set-927933/?pagi=1 *@
+        <img src="~/img/key-6869300.svg" class="w-50 rounded-circle mx-auto d-block" alt="Register a new account"/>
     </div>
 
     <div class="col-md-5 d-flex align-items-center justify-content-center px-0 py-4">
         <div class="d-block">
         <h2>@ViewData["Title"]</h2>
 
-        <form id="registerForm" method="post" asp-route-returnUrl="Model.ReturnUrl">
+        <form id="registerForm" method="post" asp-route-returnUrl="login">
             <h3>Create a new account.</h3>
             @* 
-                Summarize the error messages from all validation controls and display them in a bulleted list.
+                Summarize the error messages from all validation controls and display them in a bullet-ed list.
                 If your validation-summary=modelOnly, general errors that are not specific to any one property will be showed.
             *@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -31,9 +32,9 @@
             <div class="form-group">
                 <label asp-for="Password" class="form-label"></label>
                 <div class="input-group">
-                    <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true"/>
+                    <input id="password" asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true"/>
                     <span class="input-group-text">
-                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                        <i id="toggle-password" class="bi bi-eye-slash show-hide"></i>
                     </span>
                 </div>
             </div>
@@ -42,14 +43,18 @@
             @* Confirmation of the new user's password *@
             <div class="form-group">
                 <label asp-for="ConfirmPassword" class="form-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"/>
+                <div class="input-group">
+                    <input id="confirm-password" asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"/>
+                    <span class="input-group-text">
+                        <i id="toggle-confirm-password" class="bi bi-eye-slash show-hide"></i>
+                    </span>
+                </div>
             </div>
             <span asp-validation-for="ConfirmPassword" class="form-control-validation text-danger"></span>
 
             <div class="form-actions">
-                <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg">Register</button>
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
             </div>
-
         </form>
 
         <section class="pt-5">
@@ -68,7 +73,7 @@
                 }
                 else
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="Model.ReturnUrl" method="post" class="form-horizontal">
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
@@ -86,6 +91,40 @@
 </div>
 
 @section Scripts {
-	@* Using partial view with jquery scripts, for form data validation on client side *@
-    <partial name="_ValidationScriptsPartial" />
+    @* Using partial view with jquery scripts, for form data validation on client side *@
+    <partial name="_ValidationScriptsPartial"/>
+    
+    @* Toggle password visibility based on css class ".show-hide" *@
+    <script type="text/javascript">
+        document.querySelectorAll('.show-hide').forEach((item) => {
+            item.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const toggle = event.target;
+                const togglePassword = document.querySelector('#toggle-password');
+                const toggleConfirmPassword = document.querySelector('#toggle-confirm-password');
+                let password = null;
+
+                switch (toggle) {
+                    case togglePassword:
+                        password = document.querySelector('#password');
+                        break;
+                    case toggleConfirmPassword:
+                        password = document.querySelector('#confirm-password');
+                        break;
+                }
+
+                if (password) {
+                    // Toggle the type attribute using getAttribute() method
+                    const type = password.getAttribute('type') === 'password'
+                        ? 'text'
+                        : 'password';
+                    password.setAttribute('type', type);
+                }
+
+                // Toggle the eye and bi-eye icon
+                toggle.classList.toggle('bi-eye');
+            });
+        });
+    </script>
 }

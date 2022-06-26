@@ -17,6 +17,8 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 - Toaster and jQuery Validation as partial views.
 
 ## Screenshots
+![Register - Screenshot](/assets/register.png "Register - Screenshot")
+
 ![Index - Screenshot](/assets/index.png "Teachers Index - Screenshot")
 
 ![Edit - Screenshot](/assets/edit.png "Edit a Teacher - Screenshot")
