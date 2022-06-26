@@ -15,6 +15,7 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 - Client side libraries integrity.
 - Use of [Bootstrap 5.1.3](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and [Bootswatch](https://bootswatch.com/slate/) theme.
 - Toaster and jQuery Validation as partial views.
+- Customization of login And register with Identity
 
 ## Screenshots
 ![Register - Screenshot](/assets/register.png "Register - Screenshot")
