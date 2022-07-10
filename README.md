@@ -27,3 +27,7 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 ## Development platform
 
 Visual Studio Community 2022  on Windows 11
+
+## Images
+
+Thanks to [inspire-studio](https://pixabay.com/es/users/inspire-studio-22128832/)
