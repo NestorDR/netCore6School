@@ -23,7 +23,7 @@ namespace SchoolWeb.Factory
 
             // Update the "Name" claim type with a more friendly value.
             identity.RemoveClaim(identity.FindFirst(ClaimTypes.Name));
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName));
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.FullName));
 
             // Add custom claims.
             identity.AddClaim(new Claim(ClaimTypes.GivenName, user.FirstName));
