@@ -3,7 +3,7 @@
 namespace SchoolWeb.Helpers
 {
     /// <summary>
-    /// Customized TagHelper class. Displays an email link using an anchor tag (<a>)
+    /// Customized TagHelper class. Displays an email link using an anchor tag (<a />)
     /// Visit: https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/authoring?view=aspnetcore-6.0
     /// </summary>
     public class EmailTagHelper : TagHelper

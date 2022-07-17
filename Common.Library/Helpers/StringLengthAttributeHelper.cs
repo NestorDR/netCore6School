@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolWeb.Helpers
+namespace Common.Library.Helpers
 {
     /// <summary>
-    /// Customized StringLengthAttribute Class. Extends StringLengthAttribute to validate minimun and maximun length of an user input.
+    /// Customized StringLengthAttribute Class. Extends StringLengthAttribute to validate minimum and maximum length of an user input.
     /// Visit: https://stackoverflow.com/questions/18276853/string-minlength-and-maxlength-validation-dont-work-asp-net-mvc#answer-18276949
     /// </summary>
     public class StringLengthAttributeHelper : StringLengthAttribute

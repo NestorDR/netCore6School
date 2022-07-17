@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
@@ -21,6 +22,7 @@ namespace SchoolWeb.Controllers
         }
 
         // GET: Teacher
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return _context.Teachers != null ?

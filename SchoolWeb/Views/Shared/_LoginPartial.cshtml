@@ -1,13 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@*
+Previously that User class extends to IdentityUser class, the injection was
+   @inject SignInManager<IdentityUser> SignInManager
+   @inject UserManager<IdentityUser> UserManager
+*@
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <p class="nav-link">@UserManager.GetUserName(User)</p>
+        <a class="nav-link" asp-controller="Home" asp-action="Index" title="Welcome">Welcome <b>@User.Identity.Name</b></a>
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

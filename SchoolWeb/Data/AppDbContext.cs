@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SchoolWeb.Data
 {
     // Visit: https://github.com/entityframeworktutorial/EF6-Code-First-Demo
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
         // To create constructor type "ctor and Tab twice"
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

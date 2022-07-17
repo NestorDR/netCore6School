@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace SchoolWeb.Helpers
+namespace Common.Library.Extensions
 {
     public static class EnumExtension
     {
@@ -43,9 +43,9 @@ namespace SchoolWeb.Helpers
 
                 DescriptionAttribute[] descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
                 if (descriptionAttributes.Length > 0) return descriptionAttributes[0].Description;
-            }
+            } 
 
-        done:
+            done:
             return defaultValue;
         }
 

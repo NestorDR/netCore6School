@@ -1,4 +1,4 @@
-﻿namespace SchoolWeb.Helpers
+﻿namespace Common.Library.Extensions
 {
     public static class DateTimeExtension
     {
@@ -13,7 +13,7 @@
         {
             if (fromDate == null) return null;
 
-            if (toDate == null) toDate = DateTime.Today;
+            toDate ??= DateTime.Today;
             
             int elapsedYears = toDate.Value.Year - fromDate.Value.Year;
 

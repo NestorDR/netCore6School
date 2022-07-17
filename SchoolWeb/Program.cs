@@ -5,6 +5,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolWeb.Data;
+using SchoolWeb.Factory;
+using SchoolWeb.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +27,20 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 
 // Identity Framework Services are made available to the app through dependency injection.
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+// User class extends to IdentityUser class. Previously AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+// Register class CustomClaimsFactory to implement additional custom Claims
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomClaimsFactory>();
+
+// AutoMapper is a simple library that helps us to transform one object type to another.
+// It is a convention-based object-to-object mapper that requires very little configuration. 
+// Visit: https://code-maze.com/automapper-net-core/
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddControllersWithViews();
+
 
 // Identity Framework settings
 builder.Services.Configure<IdentityOptions>(options =>
@@ -47,14 +61,18 @@ builder.Services.Configure<IdentityOptions>(options =>
     // User settings.
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = false;
+    options.User.RequireUniqueEmail = true;
 });
 
+// Configure/register a cookie authentication scheme for the application
+// The default route where ASP.NET Core Identity will look for Login action is on the /Account/Login.
+// But for a different route, for example: /Identity/Account/Login, you have to configure app cookie setting LoginPath = "/Identity/Account/Login"
+// About good security practices, visit: https://brokul.dev/authentication-cookie-lifetime-and-sliding-expiration
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings
     options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
