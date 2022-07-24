@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Common.Library.Helpers
+namespace CommonLibrary.Helpers
 {
     /// <summary>
     /// Customized StringLengthAttribute Class. Extends StringLengthAttribute to validate minimum and maximum length of an user input.

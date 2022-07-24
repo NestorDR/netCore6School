@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Identity\Views\Account\ForgotPasswordConfirmation.cshtml.cs" />
     <Compile Remove="Factory\AppClaimsPrincipalFactory.cs" />
   </ItemGroup>
 
@@ -40,7 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common.Library\Common.Library.csproj" />
+    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj" />
+    <ProjectReference Include="..\EmailService\EmailService.csproj" />
   </ItemGroup>
 
 </Project>

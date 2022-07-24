@@ -1,9 +1,10 @@
 ﻿@* 
-    Using Dependency Injection tecnique. 
-    It's injected with an Microsoft.Extensions.Configuration.IConfiguration object to read appsettings.json file 
+    Using Dependency Injection technique. 
+    It's injected with an Microsoft.Extensions.Configuration.IConfiguration object to read .\appsettings.json file 
 *@
 @using Microsoft.Extensions.Configuration
-@inject IConfiguration _configuration
+@using CommonLibrary.Extensions
+@inject IConfiguration Configuration
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,9 +54,9 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     @* Use Image Tag Helper with asp-append-version="true", to ensure that if there is a new image it will be loaded from the server. *@
-                    <img src="~/img/school.jpg" asp-append-version="true" class="rounded-circle" alt="logo" width="30" height="30"/>
-                    @* Access to appsettings.json configuration file to get the application name *@ 
-                    @(_configuration.GetValue<string>("AppName"))
+                    <img src="~/img/building-6780404.svg" asp-append-version="true" class="rounded-circle" alt="logo" width="30" height="30"/>
+                    @* Access to .\appsettings.json configuration file to get the application name *@ 
+                    @(Configuration.GetValue<string>("AppName").ToSentence())
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">

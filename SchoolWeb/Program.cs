@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using EmailService;
 using SchoolWeb.Data;
 using SchoolWeb.Factory;
 using SchoolWeb.Models;
@@ -12,8 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 # region Add services to the DI Container.
 
-// From here start the added of services to the dependency injection container
-// Previous to ASP .Net Core 6 this services was added in ConfigureServices method of Startup.cs.
+/*
+  From here start the added of services to the dependency injection container.
+  Previous to ASP .Net Core 6 these services were added in ConfigureServices method of Startup.cs.
+ 
+  By using the DI pattern, the controller or Razor Page:
+    - Does not use concrete types, only the interfaces it implements;
+      that makes it easy to change the implementation without modifying the controller or Razor Page.
+    - Does not create an instance of the concrete type, it is created by the DI container.
+*/
 
 // Add MVC service extension to support MVC app using controllers with views, but not razor pages.
 // AddControllersWithViews method covers MVC, and AddMvc method covers both MVC and Razor Pages. I never would have guessed that. 
@@ -28,10 +36,39 @@ builder.Services.AddDbContext<AppDbContext>(
 
 // Identity Framework Services are made available to the app through dependency injection.
 // User class extends to IdentityUser class. Previously AddIdentity<IdentityUser, IdentityRole>()
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+    {
+        // Identity Framework settings
 
-// Register class CustomClaimsFactory to implement additional custom Claims
+        // Password settings.
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 4;
+        options.Password.RequiredUniqueChars = 0;
+
+        // Lockout settings.
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.MaxFailedAccessAttempts = 1000;
+        options.Lockout.AllowedForNewUsers = true;
+
+        // User settings.
+        options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        options.User.RequireUniqueEmail = true;
+
+    })
+    .AddEntityFrameworkStores<AppDbContext>()   // Add identity information stores.
+    .AddDefaultTokenProviders();                // Add token provider to enable the token generation used for reset passwords.
+
+// Set for password reset tokens a limited time of validity, for example, 2 hours.
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+    opt.TokenLifespan = TimeSpan.FromHours(2));
+
+// Register class CustomClaimsFactory to implement additional custom Claims.
+// (The application registers the interface service with the concrete type.
+//  The AddScoped method registers the service with a scoped lifetime to a single request.)
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomClaimsFactory>();
 
 // AutoMapper is a simple library that helps us to transform one object type to another.
@@ -39,30 +76,14 @@ builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomClaimsFactor
 // Visit: https://code-maze.com/automapper-net-core/
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddControllersWithViews();
+// Extract email configuration values from the .\appsettings.json file and register EmailConfiguration as a singleton
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
 
-
-// Identity Framework settings
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Password settings.
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 4;
-    options.Password.RequiredUniqueChars = 0;
-
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 1000;
-    options.Lockout.AllowedForNewUsers = true;
-
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;
-});
+// Register class EmailSender to create and send an email message.
+// (The application registers the interface service with the concrete type.
+//  The AddScoped method registers the service with a scoped lifetime to a single request.)
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // Configure/register a cookie authentication scheme for the application
 // The default route where ASP.NET Core Identity will look for Login action is on the /Account/Login.

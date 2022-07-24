@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+using EmailService;
 using SchoolWeb.Controllers;
 using SchoolWeb.Models;
 
@@ -25,17 +24,16 @@ public class AccountController : Controller
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;        // To automate Authentication Process
-    //private readonly IEmailSender _emailSender;
+    private readonly IEmailSender _emailSender;
 
     // 2.Previous to extend IdentityUser class with the User class
     //public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
-    //public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
-    public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+    public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
     {
         this._mapper = mapper;
         this._userManager = userManager;
         this._signInManager = signInManager;
-        //this._emailSender = emailSender;
+        this._emailSender = emailSender;
     }
 
     #region Register
@@ -66,20 +64,20 @@ public class AccountController : Controller
         user.EmailConfirmed = true;     // Checked in Login
         user.PhoneNumberConfirmed = true;
 
+        // Create user action
         var result = await _userManager.CreateAsync(user, userModel.Password);
+
+        // If the action was successful, add standard role and redirect the user to the login page.
         if (result.Succeeded)
         {
             await _userManager.AddToRoleAsync(user, "Visitor");
-            
             return RedirectToAction(nameof(AccountController.Login));
         }
 
-        if (result.Errors.Any())
+        // The action failed, add errors to model state and return view
+        foreach (var error in result.Errors)
         {
-            foreach (var error in result.Errors)
-            {
-                ModelState.TryAddModelError("", error.Description);
-            }
+            ModelState.TryAddModelError("", error.Description);
         }
 
         return View(userModel);
@@ -132,28 +130,96 @@ public class AccountController : Controller
 
         return View(userModel);
     }
-
     #endregion
 
     #region Logout
-
     public async Task<IActionResult> Logout()
     {
         await this._signInManager.SignOutAsync();
         return RedirectToLocal(null);
     }
-
     #endregion
 
-    #region ForgotPassword
-
+    #region Forgot and Reset Password
     [HttpGet, AllowAnonymous]
     public IActionResult ForgotPassword()
     {
         return View();
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordModel forgotPasswordModel)
+    {
+        if (!ModelState.IsValid) return View(forgotPasswordModel);
 
+        // Get the user from the database by its email.
+        User? user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
+
+        // If the user does not exist, simply redirect that user to the confirmation page,
+        //  without creating a "user does not exist" message (good security practice).
+        if (user == null) return RedirectToAction(nameof(ForgotPasswordConfirmation));
+
+        // Generate a token with the GeneratePasswordResetTokenAsync method and create
+        //  an callback link to the action to use for the reset logic.
+        string? token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        string? callback = Url.Action(nameof(ResetPassword), "Account", new { token, email = user.Email }, Request.Scheme);
+
+        // Create and send an email message to the provided email address.
+        Tuple<string, string>[] to = { Tuple.Create(user.FullName, user.Email) };
+        Message message = new(to, "Reset password token", callback, new FormFileCollection());
+        await _emailSender.SendEmailAsync(message);
+
+        // Redirect the user to the ForgotPasswordConfirmation view.
+        return RedirectToAction(nameof(ForgotPasswordConfirmation));
+    }
+
+    public IActionResult ForgotPasswordConfirmation()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult ResetPassword(string token, string email)
+    {
+        ResetPasswordModel resetPasswordModel = new ResetPasswordModel { Token = token, Email = email };
+        return View(resetPasswordModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPasswordModel)
+    {
+        if (!ModelState.IsValid)
+            return View(resetPasswordModel);
+
+        // Get the user from the database by its email.
+        var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+
+        // If the user does not exist, simply redirect that user to the confirmation page,
+        //  without creating a "user does not exist" message (good security practice).
+        if (user == null) RedirectToAction(nameof(ResetPasswordConfirmation));
+
+        // Password reset action
+        var result = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+
+        // If the action was successful, redirect the user to the confirmation page.
+        if (result.Succeeded) return RedirectToAction(nameof(ResetPasswordConfirmation));
+
+        // The action failed, add errors to model state and return view
+        foreach (var error in result.Errors)
+        {
+            ModelState.TryAddModelError("", error.Description);
+        }
+
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult ResetPasswordConfirmation()
+    {
+        return View();
+    }
     #endregion
 
     /// <summary>
@@ -167,6 +233,5 @@ public class AccountController : Controller
         if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
 
         return RedirectToAction(nameof(HomeController.Index), "Home", new { Area = "" });
-
     }
 }

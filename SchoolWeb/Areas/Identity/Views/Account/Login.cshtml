@@ -6,14 +6,14 @@
 <div class="row">
     <div class="col-md-7 d-flex align-items-center justify-content-center px-0">
         @* For images visit https://pixabay.com/collections/dual-tone-icon-set-927933/?pagi=1 *@
-        <img src="~/img/log-in-6398177.svg" class="w-50 rounded-circle mx-auto d-block" alt="Register a new account" />
+        <img src="~/img/log-in-6398177.svg" class="w-50 rounded-circle mx-auto d-block" alt="Log in" />
     </div>
 
     <div class="col-md-5 d-flex align-items-center justify-content-center px-0 py-4">
-        <div class="d-block">
+        <div class="d-block w-100">
         <h2>@ViewData["Title"]</h2>
 
-            <form id="loginForm" asp-action="Login" method="post" asp-route-returnUrl="@ViewData["ReturnUrl"]">
+        <form asp-action="Login" method="post" asp-route-returnUrl="@ViewData["ReturnUrl"]">
             <h3>Use a local account to log in.</h3>
             @*
             Summarize the error messages from all validation controls and display them in a bullet-ed list.
@@ -49,12 +49,13 @@
                     </label>
                 </div>
             </div>
+            
             <div class="form-actions">
-                <button id="login-submit" type="submit" class="btn btn-primary btn-lg">Log in</button>
+                <button type="submit" class="btn btn-primary btn-lg">Log in</button>
             </div>
             <div>
                 <p>
-                    <a id="forgot-password" asp-area="Identity" asp-controller="Account" asp-action="ForgotPassword">Forgot your password?</a>
+                    <a asp-area="Identity" asp-controller="Account" asp-action="ForgotPassword">Forgot your password?</a>
                 </p>
                 <p>
                     <a asp-area="Identity" asp-controller="Account" asp-action="Register" asp-route-returnUrl="Model.ReturnUrl">Register as a new user</a>
@@ -102,20 +103,6 @@
     @* Toggle password visibility based on id attribute *@
     <script type="text/javascript">
         const togglePassword = document.querySelector('#toggle-password');
-
-        togglePassword.addEventListener('click', () => {
-            
-            const password = document.querySelector('#password');
-            
-            // Toggle the type attribute using getAttribute() method
-            const type = password.getAttribute('type') === 'password'
-                ? 'text'
-                : 'password';
-
-            password.setAttribute('type', type);
-
-            // Toggle the eye and bi-eye icon
-            togglePassword.classList.toggle('bi-eye');
-        });
+        togglePassword.addEventListener('click', listenerToggleShowHidePassword, false);
     </script>
 }

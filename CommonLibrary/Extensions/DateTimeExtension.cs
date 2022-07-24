@@ -1,4 +1,4 @@
-﻿namespace Common.Library.Extensions
+﻿namespace CommonLibrary.Extensions
 {
     public static class DateTimeExtension
     {
