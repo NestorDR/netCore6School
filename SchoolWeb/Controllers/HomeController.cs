@@ -9,7 +9,7 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    // Constructor registers de logger using DI (Dependency Inyection)
+    // Constructor registers de logger using DI (Dependency Injection)
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
