@@ -20,11 +20,11 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 - Use of [AutoMapper](https://automapper.org/) library that helps to transform one object type to another. It is a convention-based object-to-object mapper.
 
 ## Screenshots
-![Register - Screenshot](/Assets/register.png "Register - Screenshot")
+![Register - Screenshot](/assets/register.png "Register - Screenshot")
 
-![Index - Screenshot](/Assets/index.png "Teachers Index - Screenshot")
+![Index - Screenshot](/assets/index.png "Teachers Index - Screenshot")
 
-![Edit - Screenshot](/Assets/edit.png "Edit a Teacher - Screenshot")
+![Edit - Screenshot](/assets/edit.png "Edit a Teacher - Screenshot")
 
 ## Development platform
 
