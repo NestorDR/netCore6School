@@ -17,6 +17,7 @@ My first project with [ASP.NET Core 6.0](https://docs.microsoft.com/en-us/aspnet
 - Toaster and jQuery Validation as partial views.
 - Customization of Register, Login, Forgot and Reset password with Identity
 - Identity claims customization
+- [Data Annotations Key Attribute in EF Core](https://www.tektutorialshub.com/entity-framework-core/data-annotations-key-attribute-in-ef-core/)
 - Use of [AutoMapper](https://automapper.org/) library that helps to transform one object type to another. It is a convention-based object-to-object mapper.
 
 ## Screenshots
